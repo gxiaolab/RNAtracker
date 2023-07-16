@@ -9,7 +9,7 @@ To reproduce the results in our paper, please follow the steps below.
 This will give you a folder called `input_files/` which holds the RDDs that were identified in each cell line/sample, as well as the following files:
 
     * `ALL_COUNT.dat`: has the total number of reads corresponding to each sample, which is information RNAtracker needs for filtering SNVs and calling ASE events.
-    * `GENCODE_CNV_filtered.RData`: predicted CNV regions for each cell line (this file was written using R/4.1.0)
+    * `GENCODE_CNV_filtered.RData`: predicted CNV regions for each cell line (this file was written using R/4.1.0, if you have trouble loading it with your version of R, the same information is available in Supplemental Table 12)
     * `ENCODE_cell_line_names`: list of the 16 ENCODE cell lines that we have data for
 
 3. Make sure you have all the neccessary Python packages. The easiest way is to create a conda environment using the provided RNAtracker.yml file: `conda env create -f RNAtracker.yml`
@@ -17,13 +17,22 @@ This will give you a folder called `input_files/` which holds the RDDs that were
 This will create a conda environment named RNAtracker that you should activate before running the python scripts.
 
 ### Filter RDD files for reliable SNVs
-The RDD files contain RNA-DNA mismatches identified at all positions that have single-nucleotide variants according to dbSNP153. However, we want to filter these RDDs to only include positions that meet the criteria elucidated in Methods. This step is run seperately for each cell line and for each time point. 
+The RDD files contain RNA-DNA mismatches identified at all positions that have single-nucleotide variants according to dbSNP153. However, we want to filter these RDDs to only include positions that meet the criteria elucidated in Methods:
+
+	1. Observed in both replicates
+	2. Major allelic ratio ≤ 0.95 and ≥ 0.05
+	3. Reasonable coverage (SNVs with extremely high coverage might come from sequencing error or duplicates): the maximum allowed coverage is defined as the maximum read counts of the SNVs whose allelic ratio falls in the interval [0.45,0.55] 
+	4. Located in a non-intronic region. For SNVs in positions that overlap more than one type of annotated region, the following priority order was used to determine its label for categorization: coding exon>3’UTR>5’UTR>intron>exon in non-coding transcripts>Intron in non-coding transcripts
+
+This step is run seperately for each cell line and for each time point. 
 
 The command to run this step is: `python RNAtracker_filter_snvs.py --rdd ${rdd1} ${rdd2} -c ALL_COUNT.dat --prefix ${input_dir}`
 
 Here, `$rdd1` and `$rdd2` are the RDD files for the two replicates in the same cell line at the same timepoint. Since this command needs to be run for each cell line and timepoint seperately, we provide some wrapper scripts for job submission, although these may need to be modified depending on your HPC. 
+
 1. Generate job array with `source submit_filter_snvs_ja1.sh`
-2. Submit jobs with `qsub submit_filter_snvs_ja2.sh`
+2. Make log directory: `mkdir log`
+3. Submit jobs with `qsub submit_filter_snvs_ja2.sh`
 
 ### Identify ASE events
 The previous step will output several files, among which is a pickle object containing the filter SNVs that will be used for ASE testing. 

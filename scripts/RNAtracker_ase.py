@@ -568,3 +568,4 @@ if opts.plotsigma:
             plt.savefig("{}_sigma_distribution.png".format(outall_prefix))
     plt.clf()
  
+logger.info("Job complete identifying ASE genes")

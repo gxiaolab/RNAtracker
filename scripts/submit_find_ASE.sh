@@ -15,7 +15,8 @@ source /u/project/gxxiao4/huange7/miniconda3/etc/profile.d/conda.sh
 ###
 
 conda activate RNAtracker
-cell_lines=../input_files/ENCODE_cell_line_names  # each row is a different cell line
+cell_lines=../input_files/ENCODE_cell_line_names
+# each row is a different cell line
 input_dir=../input_files
 
 while read p; do

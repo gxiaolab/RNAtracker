@@ -2,18 +2,15 @@ library(data.table)
 library(dplyr)
 library(tidyr)
 
-#library(ComplexHeatmap)
-
 ASRS_conditions = c('0-0-1', '0-1-1', '0-NA-1', '0-1-NA')
 ASRT_conditions = c('1-1-1', '1-NA-1', '1-1-NA', '1-NA-NA')
 mixed_conditions = c('1-0-0', '1-0-1', '1-0-NA', '1-NA-0', '1-1-0')
 
 celltypes=c('GM12878', 'K562', 'HepG2','PC_3','Panc1','HCT116', 'MCF_7', 'IMR90', 'A673', 'Caco2', 'Calu3', 'MCF10A', 'OCILY7', 'PC9', 'HMEC', 'HUVEC')
-#celltypes=c('GM12878', 'K562', 'HepG2','PC_3','Panc1','HCT116', 'MCF_7', 'IMR90', 'A673', 'Caco2', 'Calu3', 'MCF10A', 'OCILY7', 'PC9', 'mec', 'ecuv')
 
 load('../input_files/GENCODE_CNV_filtered.RData') # file with predicted cell line regions per cell line 
 
-#ase_dir = '/u/home/h/huange7/project-gxxiao4/ASE_ASRS/gene_strand_fix/bruseq_prep/' # change to ../input_files/ or wherever the output from  RNAtracker_ase.py are saved
+# change to wherever the output files from  RNAtracker_ase.py are saved
 ase_dir = '../input_files/'
 
 make_gene_label_table = function(cell_line){
@@ -48,15 +45,12 @@ make_gene_label_table = function(cell_line){
 	return(all_ase_full)
 }
 
-
-
 for (i in 1:length(celltypes)){
   cell_line = celltypes[i]
   print(cell_line)
   gene_label_dat = make_gene_label_table(cell_line)  
   assign(paste0(cell_line, '_gene_info'), gene_label_dat)
 }
-
 
 all_gene_info_list = lapply(ls(pattern = "*_gene_info"), get)
 all_gene_info_dat = do.call("rbind", all_gene_info_list)
