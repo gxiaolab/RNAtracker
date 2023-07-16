@@ -19,10 +19,10 @@ This will create a conda environment named RNAtracker that you should activate b
 ### Filter RDD files for reliable SNVs
 The RDD files contain RNA-DNA mismatches identified at all positions that have single-nucleotide variants according to dbSNP153. However, we want to filter these RDDs to only include positions that meet the criteria elucidated in Methods:
 
-	1. Observed in both replicates
-	2. Major allelic ratio ≤ 0.95 and ≥ 0.05
-	3. Reasonable coverage (SNVs with extremely high coverage might come from sequencing error or duplicates): the maximum allowed coverage is defined as the maximum read counts of the SNVs whose allelic ratio falls in the interval [0.45,0.55] 
-	4. Located in a non-intronic region. For SNVs in positions that overlap more than one type of annotated region, the following priority order was used to determine its label for categorization: coding exon>3’UTR>5’UTR>intron>exon in non-coding transcripts>Intron in non-coding transcripts
+1. Observed in both replicates
+2. Major allelic ratio ≤ 0.95 and ≥ 0.05
+3. Reasonable coverage (SNVs with extremely high coverage might come from sequencing error or duplicates): the maximum allowed coverage is defined as the maximum read counts of the SNVs whose allelic ratio falls in the interval [0.45,0.55] 
+4. Located in a non-intronic region. For SNVs in positions that overlap more than one type of annotated region, the following priority order was used to determine its label for categorization: coding exon>3’UTR>5’UTR>intron>exon in non-coding transcripts>Intron in non-coding transcripts
 
 This step is run seperately for each cell line and for each time point. 
 
