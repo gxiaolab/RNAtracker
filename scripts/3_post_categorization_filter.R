@@ -1,7 +1,6 @@
 rm(list = ls())
 library(data.table)
 library(dplyr)
-library(ggplot2)
 
 #' This function is from
 #' [StackOverflow post 5577221](https://stackoverflow.com/questions/5577221/how-can-i-load-an-object-into-a-variable-name-that-i-specify-from-an-r-data-file)
