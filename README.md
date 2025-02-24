@@ -9,6 +9,9 @@ All steps only require R (scripts have been tested on R version 4.1.0). No non-s
 - data.table (1.14.2)
 - dplyr (1.1.2)
 - VGAM (1.1-10)
+- scales (1.3.0)
+- R.utils (2.10.1)
+- tidyr (1.1.3)
 
 The package versions are listed above, but not strictly required to be the same. 
 
