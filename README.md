@@ -44,3 +44,38 @@ Rscript 3_post_categorization_filter.R GM12878 ../data ../results
 
 The above steps should take no more than half an hour to run on a desktop computer. 
 
+### Misc. scripts 
+See `misc_scripts/`. 
+
+### ActD RNA-Seq
+
+1. identify validated asRS genes based on allelic imbalance
+   ```
+        Rscript validate_by_BEAPR_ASE_SNV_null.R GM12878 GM12878gDNA_S3_L006
+        Rscript validate_by_BEAPR_ASE_SNV_null.R HCT116 HCT116gDNA_S2_L006
+        Rscript validate_by_BEAPR_ASE_SNV_null.R MCF-7 MCF7gDNA_S1_L006
+   ```
+
+3. Get number/proportion of validated genes/snvs:
+        ```
+        Rscript plot_prop_validated_events.R
+        ```
+
+
+### Prime editing
+1. run perbase
+    ```
+        source run_perbase_splice_spec.ja1.sh
+        qsub run_perbase_splice_spec.ja2.sh
+     ```
+1. Combine perbase counts
+    ```
+        Rscript collect_perbase_splice_spec_counts.R
+    ```
+3. Plot perbase counts
+    ```
+        Rscript plot_perbase_spliced_spec_sig_variants.R
+     ```
+
+Finally, additional scripts (mostly related to plotting figures) can be found in `misc_scripts/plot_scripts`. 
+
